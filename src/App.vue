@@ -1,7 +1,13 @@
 <template>
-  <div>
+  <div class="container">
     <SearchBar @termChange="onTermChange" />
-    <VideoList :videos="videos" />
+    <div class="row">
+      <VideoDetail :video="selectedVideo" />
+      <VideoList
+        :videos="videos"
+        @videoSelect="onVideoSelect"
+      />
+    </div>
   </div>
 </template>
 
@@ -9,18 +15,23 @@
 import axios from "axios";
 import SearchBar from "./components/SearchBar";
 import VideoList from "./components/VideoList.vue";
-const API_KEY = "AIzaSyAp9GPSzK-ICjaE3UTZCS9mj0XfKfjW2SE";
+import VideoDetail from "./components/VideoDetail.vue";
+const API_KEY = "AIzaSyAVHegYUm8PFoFh43O1M4GORKOoqj1dmYI";
 
 export default {
 	name: "App",
 	components: {
 		SearchBar,
 		VideoList,
+		VideoDetail,
 	},
 	data() {
-		return { videos: [] };
+		return { videos: [], selectedVideo: null };
 	},
 	methods: {
+		onVideoSelect(video) {
+			this.selectedVideo = video;
+		},
 		onTermChange(searchTerm) {
 			axios
 				.get("https://www.googleapis.com/youtube/v3/search", {
@@ -38,3 +49,4 @@ export default {
 	},
 };
 </script>
+
